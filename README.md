@@ -1,11 +1,11 @@
 # Multi-User File Manager
 
-## 📚 Project Overview
+##  Project Overview
 The **Multi-User File Manager** is a backend application built with Node.js. It enables users to collaborate by managing files in a secure environment. The project demonstrates backend development skills including user authentication, file management, multilingual support, and asynchronous task handling.
 
 ---
 
-## 🧰 Features
+##  Features
 - **User Management**: Secure registration and login with password hashing.
 - **File Management**: Create, read, update, and delete files.
 - **Multilingual Support**: User-selectable interface language (e.g., English, French).
@@ -23,7 +23,7 @@ The **Multi-User File Manager** is a backend application built with Node.js. It 
 
 ---
 
-## 🚀 Setup Instructions
+##  Setup Instructions
 
 ### Prerequisites
 - Node.js and npm installed

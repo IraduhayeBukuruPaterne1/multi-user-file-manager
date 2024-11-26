@@ -1,0 +1,12 @@
+{
+  "name": "multi-user-file-manager",
+  "version": "1.0.0",
+  "description": "##  Project Overview The **Multi-User File Manager** is a backend application built with Node.js. It enables users to collaborate by managing files in a secure environment. The project demonstrates backend development skills including user authentication, file management, multilingual support, and asynchronous task handling.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
