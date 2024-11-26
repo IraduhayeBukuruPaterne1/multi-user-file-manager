@@ -1,19 +1,17 @@
 const { MongoClient } = require("mongodb");
 
-// Connection URI for MongoDB (local or cloud-based)
-const uri = "mongodb://127.0.0.1:27017"; // Use your local MongoDB or MongoDB Atlas URI
-
+const uri = "mongodb://127.0.0.1:27017"; // Docker-hosted MongoDB instance
 const client = new MongoClient(uri);
 
-const connectToDb = async () => {
-  try {
-    await client.connect(); // Connect to MongoDB
-    console.log("Connected to MongoDB successfully!");
-    return client.db("file_manager"); // Connect to or create a database named "file_manager"
-  } catch (err) {
-    console.error("Failed to connect to MongoDB:", err);
-    process.exit(1); // Exit on failure
-  }
-};
+async function connectToDb() {
+    try {
+        await client.connect();
+        console.log("Successfully connected to MongoDB!");
+        return client;
+    } catch (error) {
+        console.error("Failed to connect to MongoDB:", error);
+        process.exit(1); // Exit with failure
+    }
+}
 
 module.exports = connectToDb;
