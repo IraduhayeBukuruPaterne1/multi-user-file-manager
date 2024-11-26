@@ -28,6 +28,6 @@ app.get("/", (req, res) => {
 
 module.exports = app;
 
-const authRoutes = require("./routes/auth");
+const authRoutes = require("../routes/auth");
 
 app.use("/auth", authRoutes);
