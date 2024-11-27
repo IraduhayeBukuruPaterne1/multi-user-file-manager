@@ -1,32 +1,19 @@
 const express = require('express');
+const db = require('./config/db'); // Make sure this path is correct
 const app = express();
+const port = 3000;
 
-// Import Routes
-const userRoutes = require('./routes/userRoutes');
-const fileRoutes = require('./routes/fileRoutes');
-
-// Middleware
-const bodyParser = require('body-parser');
-app.use(bodyParser.json());
-
-// Use Routes
-app.use('/api/users', userRoutes);
-app.use('/api/files', fileRoutes);
-
-const db = require('./config/db');  // Import the database connection
-
-// Example: Test the database connection
-db.getConnection()
-  .then(connection => {
+// Test the connection
+db.query('SELECT 1', (err, result) => {
+  if (err) {
+    console.error('Database connection error:', err);
+  } else {
     console.log('Database connected successfully!');
-    connection.release();  // Always release the connection after use
-  })
-  .catch(err => {
-    console.error('Database connection failed:', err);
-  });
+  }
+});
 
-// Start the Express server
-const port = process.env.PORT || 3000;
+// Add your routes and server start code here
+
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+  console.log(`Server running on http://localhost:${port}`);
 });
