@@ -44,3 +44,27 @@ app.use('/api/files', fileRoutes); // File-related routes
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
+// index.js
+
+const express = require('express');
+const db = require('./config/db');  // Import the database connection
+
+const app = express();
+
+// Example: Test the database connection
+db.getConnection()
+  .then(connection => {
+    console.log('Database connected successfully!');
+    connection.release();  // Always release the connection after use
+  })
+  .catch(err => {
+    console.error('Database connection failed:', err);
+  });
+
+// Define other routes and middleware here if necessary
+
+// Start the Express server
+app.listen(3000, () => {
+  console.log('Server running on port 3000');
+});
