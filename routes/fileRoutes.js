@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const authenticate = require('../middleware/authenticate'); // We'll create this later
+const authenticate = require('../middleware/authenticate');  // Ensure this path is correct
+const connection = require('../config/db');  // Import the MySQL connection
 
 // File Upload Route
 router.post('/', authenticate, (req, res) => {
-  // Assuming file upload logic will be handled by multer or similar
-  const user_id = req.user.id; // Extracted from JWT token
+  const user_id = req.user.id;  // Extracted from JWT token
 
   const { filename, filePath } = req.body;
   const query = 'INSERT INTO files (user_id, filename, file_path) VALUES (?, ?, ?)';
