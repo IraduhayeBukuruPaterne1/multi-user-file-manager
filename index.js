@@ -19,3 +19,6 @@ app.post('/login', (req, res) => {
     // Simulate user login
     res.send('User logged in!');
 });
+
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
