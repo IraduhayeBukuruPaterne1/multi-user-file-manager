@@ -21,4 +21,4 @@ app.post('/login', (req, res) => {
 });
 
 const bodyParser = require('body-parser');
-app.use(bodyParser.json());
+app.use(bodyParser.json(g));
