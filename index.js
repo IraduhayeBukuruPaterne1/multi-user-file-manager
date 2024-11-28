@@ -1,19 +1,23 @@
 const express = require('express');
+const db = require('./config/db'); // Make sure this path is correct
 const app = express();
+const port = 3000;
 
-app.get('/', (req, res) => {
-    res.send('Hello, File Manager!');
+// Test the connection
+db.query('SELECT 1', (err, result) => {
+  if (err) {
+    console.error('Database connection error:', err);
+  } else {
+    console.log('Database connected successfully!');
+  }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+// Add your routes and server start code here
+
+app.listen(port, () => {
+  console.log(`Server running on http://localhost:${port}`);
 });
 
-app.post('/register', (req, res) => {
-    // Simulate user registration
-    res.send('User registered!');
-});
 
 app.post('/login', (req, res) => {
     // Simulate user login
@@ -22,3 +26,4 @@ app.post('/login', (req, res) => {
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.json(g));
+
