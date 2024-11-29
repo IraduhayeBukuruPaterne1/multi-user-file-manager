@@ -1,34 +1,71 @@
 const express = require('express');
 const router = express.Router();
-const authenticate = require('../middleware/authenticate');  // Ensure this path is correct
-const connection = require('../config/db');  // Import the MySQL connection
+const multer = require('multer');
+const path = require('path');
+const File = require('../models/File');
+const User = require('../models/user');
 
-// File Upload Route
-router.post('/', authenticate, (req, res) => {
-  const user_id = req.user.id;  // Extracted from JWT token
-
-  const { filename, filePath } = req.body;
-  const query = 'INSERT INTO files (user_id, filename, file_path) VALUES (?, ?, ?)';
-
-  connection.query(query, [user_id, filename, filePath], (err, result) => {
-    if (err) {
-      return res.status(500).json({ message: 'Error uploading file' });
-    }
-    res.status(201).json({ message: 'File uploaded successfully' });
-  });
+// Set up multer storage configuration
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, 'uploads/');
+    },
+    filename: function(req, file, cb) {
+        cb(null, Date.now() + path.extname(file.originalname));
+    },
 });
 
-// Get Files for a User
-router.get('/', authenticate, (req, res) => {
-  const user_id = req.user.id;
+const upload = multer({ storage: storage });
 
-  const query = 'SELECT * FROM files WHERE user_id = ?';
-  connection.query(query, [user_id], (err, results) => {
-    if (err) {
-      return res.status(500).json({ message: 'Error fetching files' });
+// Route to upload a file
+router.post('/upload', upload.single('file'), async(req, res) => {
+    const { userId, language = 'en' } = req.body; // Assuming userId and language are passed in the request body
+
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+
+        const newFile = new File({
+            filename: req.file.originalname,
+            filepath: req.file.path,
+            userId,
+            language,
+        });
+
+        await newFile.save();
+        res.status(201).json({ message: 'File uploaded successfully', file: newFile });
+    } catch (error) {
+        res.status(500).send('Error uploading file');
     }
-    res.json(results);
-  });
+});
+
+// Route to get all files for a user
+router.get('/files', async(req, res) => {
+    const { userId } = req.query;
+
+    try {
+        const files = await File.find({ userId });
+        res.status(200).json(files);
+    } catch (error) {
+        res.status(500).send('Error retrieving files');
+    }
+});
+
+// Route to delete a file
+router.delete('/file/:id', async(req, res) => {
+    const { id } = req.params;
+
+    try {
+        const file = await File.findByIdAndDelete(id);
+        if (!file) {
+            return res.status(404).send('File not found');
+        }
+        res.status(200).json({ message: 'File deleted successfully' });
+    } catch (error) {
+        res.status(500).send('Error deleting file');
+    }
 });
 
 module.exports = router;
