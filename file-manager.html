@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>File Manager</title>
+
+    <style>
+        /* General styling */
+        
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+        }
+        /* Sidebar styles */
+        
+        .sidebar {
+            width: 250px;
+            background-color: #2b6e50;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+        
+        .sidebar h2 {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        
+        .sidebar a {
+            color: #fff;
+            text-decoration: none;
+            margin-bottom: 10px;
+            display: block;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        
+        .sidebar a:hover {
+            background-color: #1e523d;
+        }
+        
+        .language-selector {
+            margin-top: auto;
+        }
+        
+        .language-selector select {
+            width: 100%;
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+        }
+        /* Main content styles */
+        
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .main-header h1 {
+            font-size: 24px;
+            color: #2b6e50;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .user-profile span {
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .button {
+            background-color: #2b6e50;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .button:hover {
+            background-color: #1e523d;
+        }
+        /* File list styles */
+        
+        .file-list {
+            margin-top: 20px;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .file-item:last-child {
+            border-bottom: none;
+        }
+        
+        .file-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .file-actions button {
+            background-color: #2b6e50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        
+        .file-actions button:hover {
+            background-color: #1e523d;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+
+    <div class="sidebar">
+
+        <h2>Menu</h2>
+
+        <a href="#">Home</a>
+
+        <a href="#">File List</a>
+
+        <a href="#">Actions</a>
+
+        <a href="#">Logout</a>
+
+        <div class="language-selector">
+
+            <label for="language">Language:</label>
+
+            <select id="language">
+
+                <option value="en">English</option>
+
+                <option value="fr">French</option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Main content -->
+
+    <div class="main-content">
+
+        <div class="main-header">
+
+            <h1>File Manager</h1>
+
+            <div class="user-profile">
+
+                <img src="https://via.placeholder.com/40" alt="User">
+
+                <span>Ardline Nukuri</span>
+
+            </div>
+
+        </div>
+
+
+
+        <button class="button">Create File</button>
+
+
+
+        <div class="file-list">
+
+            <div class="file-item">
+
+                <span>amahoro.txt</span>
+
+                <div class="file-actions">
+
+                    <button>Edit</button>
+
+                    <button>Delete</button>
+
+                </div>
+
+            </div>
+
+            <div class="file-item">
+
+                <span>bg.jpg</span>
+
+                <div class="file-actions">
+
+                    <button>Edit</button>
+
+                    <button>Delete</button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
