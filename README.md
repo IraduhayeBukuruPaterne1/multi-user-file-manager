@@ -61,7 +61,7 @@ The **Multilingual File Manager Application** is a backend project built using *
 cd multilingual-file-manager
 2. Install Dependencies
 bash
-Copy code
+
 npm install
 3. Configure Environment Variables
 Create a .env file in the project root and add the following variables:
@@ -118,7 +118,7 @@ vbnet
 - **Preview in Markdown-Compatible Tool**: If you’re on GitHub or another Markdown-supporting platform, the formatting will appear exactly as intended.  
 
 
-# Challenges and solutions 
+**Challenges and solutions** 
 
 Handling Concurrent File Uploads
 
