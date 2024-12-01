@@ -62,7 +62,7 @@ cd multilingual-file-manager
 2. Install Dependencies
 bash
 
-npm install
+### npm install
 3. Configure Environment Variables
 Create a .env file in the project root and add the following variables:
 
@@ -122,8 +122,10 @@ File CRUD operations
 Queuing system functionality
 vbnet
 ### Screenshot
-![Screenshot 2024-12-01 222237](https://github.com/user-attachments/assets/152e6bb7-9037-4a87-bf3e-75a56a4b259d)
-![Screenshot 2024-12-01 222310 (1)](https://github.com/user-attachments/assets/7cef038c-5974-40fb-b243-c98878ddbf58)
+![Screenshot 2024-12-01 222237](https://github.com/user-attachments/assets/5a97730a-6285-41c1-8212-01bbc0a77326)
+
+![Screenshot 2024-12-01 222310](https://github.com/user-attachments/assets/e399a6aa-a42f-4de4-9258-b5e88915e2bd)
+
 
 
 
