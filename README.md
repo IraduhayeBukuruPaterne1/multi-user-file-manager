@@ -82,14 +82,18 @@ npm run migrate
 bash
 
 npm start
+
 Usage
+
 1. Register a New User
 Use the /register endpoint to create a new account.
 
 2. Log In
+
 Authenticate your account through the /login endpoint.
 
 3. Manage Files
+
 Perform file and directory operations:
 
 Create, read, update, and delete files and directories in your workspace.
@@ -97,18 +101,24 @@ Create, read, update, and delete files and directories in your workspace.
 Update your preferred language through the /language endpoint.
 
 5. Upload Files
+
 Upload files and track their progress using the provided API routes.
 
 Testing
+
 To execute unit tests, run the following command:
 bash
 
 npm test
+
 Test Coverage
+
 The tests include the following functionalities:
 
 User authentication
+
 File CRUD operations
+
 Queuing system functionality
 vbnet
 
@@ -117,8 +127,7 @@ vbnet
 - **Paste into a Plain Text Area**: Ensure you're pasting this into a markdown editor or a plain-text-compatible section of your project (e.g., a `README.md` file).  
 - **Preview in Markdown-Compatible Tool**: If you’re on GitHub or another Markdown-supporting platform, the formatting will appear exactly as intended.  
 
-
-**Challenges and solutions** 
+Challenges and solutions
 
 Handling Concurrent File Uploads
 
