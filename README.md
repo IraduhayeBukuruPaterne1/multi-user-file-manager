@@ -119,11 +119,11 @@ Copy code
 
 
 
-##Challenges and Solutions## 
+**Challenges and Solutions**
 
 Handling Concurrent File Uploads
 
-“One of our key challenges was managing multiple simultaneous file uploads without overloading the server. We overcame this by integrating Redis with a queuing system to process uploads efficiently.”
+One of our key challenges was managing multiple simultaneous file uploads without overloading the server. We overcame this by integrating Redis with a queuing system to process uploads efficiently.
 
 Implementing Dynamic i18n
-“Another challenge was applying internationalization dynamically across the application. To address this, we designed middleware that detects and applies user-selected languages in real time.”
+Another challenge was applying internationalization dynamically across the application. To address this, we designed middleware that detects and applies user-selected languages in real time.”
