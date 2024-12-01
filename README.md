@@ -55,66 +55,62 @@ The **Multilingual File Manager Application** is a backend project built using *
 - Redis server installed.
 
 Steps to Set Up and Run the Project
-Navigate to the Project Directory
-
+1. Navigate to the Project Directory
 bash
 Copy code
 cd multilingual-file-manager
-Install Dependencies
-
+2. Install Dependencies
 bash
 Copy code
 npm install
-Configure Environment Variables
-Create a .env file in the project root and add the following:
+3. Configure Environment Variables
+Create a .env file in the project root and add the following variables:
 
 env
 Copy code
-DB_HOST=your_database_host
-DB_USER=your_database_user
-DB_PASSWORD=your_database_password
-DB_NAME=your_database_name
-REDIS_HOST=your_redis_host
-REDIS_PORT=your_redis_port
-Run Database Migrations (if applicable)
-
+DB_HOST=your_database_host  
+DB_USER=your_database_user  
+DB_PASSWORD=your_database_password  
+DB_NAME=your_database_name  
+REDIS_HOST=your_redis_host  
+REDIS_PORT=your_redis_port  
+4. Run Database Migrations (if applicable)
 bash
 Copy code
 npm run migrate
-Start the Application
-
+5. Start the Application
 bash
 Copy code
 npm start
 Usage
-Register a New User
+1. Register a New User
 Use the /register endpoint to create a new account.
 
-Log In
+2. Log In
 Authenticate your account through the /login endpoint.
 
-Manage Files
+3. Manage Files
+Perform file and directory operations:
 
 Create, read, update, and delete files and directories in your workspace.
-Change Language
-Update your preferred language using the /language endpoint.
+4. Change Language
+Update your preferred language through the /language endpoint.
 
-Upload Files
-Upload files and track their progress through the provided API routes.
+5. Upload Files
+Upload files and track their progress using the provided API routes.
 
 Testing
 To execute unit tests, run the following command:
-
 bash
 Copy code
 npm test
-The tests cover:
+Test Coverage
+The tests include the following functionalities:
 
-User authentication.
-File CRUD operations.
-Queuing system functionality.
-Challenges and Solutions
-1. Handling Concurrent File Uploads
+User authentication
+File CRUD operations
+Queuing system functionality
+
 Challenge: The server experienced potential overload during multiple simultaneous uploads.
 Solution: Integrated Redis with a queuing library to manage tasks asynchronously and prevent overload.
 2. Dynamic Multilingual Support
