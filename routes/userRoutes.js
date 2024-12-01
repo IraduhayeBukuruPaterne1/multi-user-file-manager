@@ -85,24 +85,28 @@ router.post("/", async(req, res) => {
  *         description: Internal server error
  */
 router.post("/login", async(req, res) => {
+    const { email, password } = req.body;
     try {
-        const { email, password } = req.body;
-
         const user = await User.findOne({ email });
         if (!user) {
+            console.log("User not found:", email);
             return res.status(400).json({ message: "Invalid credentials" });
         }
 
+        console.log("Stored hash:", user.password);
+        console.log("Input password:", password);
+
+        // Compare input password with hashed password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
+            console.log("Password does not match!");
             return res.status(400).json({ message: "Invalid credentials" });
         }
 
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-
         res.status(200).json({ token });
-    } catch (error) {
-        console.error(error);
+    } catch (err) {
+        console.error(err);
         res.status(500).json({ message: "Internal server error" });
     }
 });
