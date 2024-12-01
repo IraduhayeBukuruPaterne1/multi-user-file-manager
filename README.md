@@ -54,19 +54,20 @@ The **Multilingual File Manager Application** is a backend project built using *
 - MySQL or MongoDB installed and configured.
 - Redis server installed.
 
-### Steps
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/multilingual-file-manager.git
-Navigate to the project directory:
+Steps to Set Up and Run the Project
+Navigate to the Project Directory
+
 bash
 Copy code
 cd multilingual-file-manager
-Install dependencies:
+Install Dependencies
+
 bash
 Copy code
 npm install
-Configure environment variables in a .env file:
+Configure Environment Variables
+Create a .env file in the project root and add the following:
+
 env
 Copy code
 DB_HOST=your_database_host
@@ -75,23 +76,34 @@ DB_PASSWORD=your_database_password
 DB_NAME=your_database_name
 REDIS_HOST=your_redis_host
 REDIS_PORT=your_redis_port
-Run database migrations (if applicable):
+Run Database Migrations (if applicable)
+
 bash
 Copy code
 npm run migrate
-Start the application:
+Start the Application
+
 bash
 Copy code
 npm start
 Usage
-Register a new user through the /register endpoint.
-Log in with your credentials at the /login endpoint.
-Access your workspace to manage files:
-Create, read, update, and delete files and directories.
-Change your preferred language through the /language endpoint.
-Upload files and track progress using the provided API routes.
+Register a New User
+Use the /register endpoint to create a new account.
+
+Log In
+Authenticate your account through the /login endpoint.
+
+Manage Files
+
+Create, read, update, and delete files and directories in your workspace.
+Change Language
+Update your preferred language using the /language endpoint.
+
+Upload Files
+Upload files and track their progress through the provided API routes.
+
 Testing
-To run the unit tests:
+To execute unit tests, run the following command:
 
 bash
 Copy code
@@ -102,13 +114,19 @@ User authentication.
 File CRUD operations.
 Queuing system functionality.
 Challenges and Solutions
-Handling Concurrent File Uploads
-Challenge: Overloading the server during multiple uploads.
-Solution: Integrated Redis with a queuing library to process tasks efficiently.
-Dynamic Multilingual Support
-Challenge: Applying translations dynamically across the app.
-Solution: Used middleware to fetch and apply user-selected languages seamlessly.
+1. Handling Concurrent File Uploads
+Challenge: The server experienced potential overload during multiple simultaneous uploads.
+Solution: Integrated Redis with a queuing library to manage tasks asynchronously and prevent overload.
+2. Dynamic Multilingual Support
+Challenge: Ensuring translations dynamically applied across the application.
+Solution: Middleware was implemented to fetch and apply user-selected languages seamlessly.
 Future Enhancements
-File Versioning: Track and manage file versions.
-Search Functionality: Add a search feature to find files quickly.
-Cloud Integration: Connect to cloud storage services for file management.
+File Versioning
+
+Track and manage multiple versions of the same file.
+Search Functionality
+
+Add a feature to search files and directories efficiently.
+Cloud Integration
+
+Connect to cloud storage services for scalable file management.
