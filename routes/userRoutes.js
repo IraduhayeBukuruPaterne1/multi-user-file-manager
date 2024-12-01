@@ -42,12 +42,13 @@ router.post("/", async(req, res) => {
             return res.status(400).json({ message: "User already exists" });
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
+        // const hashedPassword = await bcrypt.hash(password, 10);
 
         const newUser = new User({
             username,
             email,
-            password: hashedPassword,
+            password: password,
+
         });
 
         await newUser.save();
@@ -93,13 +94,14 @@ router.post("/login", async(req, res) => {
             return res.status(400).json({ message: "Invalid credentials" });
         }
 
-        console.log("Stored hash:", user.password);
-        console.log("Input password:", password);
+        console.log(req.body.password)
+        console.log(user.password)
 
         // Compare input password with hashed password
-        const isMatch = await bcrypt.compare(password, user.password);
+        const isMatch = await bcrypt.compare(req.body.password, user.password);
         if (!isMatch) {
             console.log("Password does not match!");
+            console.log(isMatch);
             return res.status(400).json({ message: "Invalid credentials" });
         }
 
@@ -109,6 +111,7 @@ router.post("/login", async(req, res) => {
         console.error(err);
         res.status(500).json({ message: "Internal server error" });
     }
+
 });
 
 /**

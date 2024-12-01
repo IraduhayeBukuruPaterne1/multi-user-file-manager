@@ -245,5 +245,18 @@ router.get("/file/:id/download", authenticate, async(req, res) => {
         res.status(500).send("Error downloading file");
     }
 });
+router.get('/search', authenticate, async(req, res) => {
+    const { query } = req.query;
 
+    try {
+        const files = await File.find({
+            userId: req.user.id,
+            fileName: new RegExp(query, 'i')
+        });
+        res.status(200).json(files);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error searching files' });
+    }
+});
 module.exports = router;
