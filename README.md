@@ -118,8 +118,7 @@ vbnet
 - **Preview in Markdown-Compatible Tool**: If you’re on GitHub or another Markdown-supporting platform, the formatting will appear exactly as intended.  
 
 
-
-# Challenges and Solutions
+# Challenges and solutions 
 
 Handling Concurrent File Uploads
 
