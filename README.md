@@ -67,7 +67,7 @@ npm install
 Create a .env file in the project root and add the following variables:
 
 env
-Copy code
+
 DB_HOST=your_database_host  
 DB_USER=your_database_user  
 DB_PASSWORD=your_database_password  
@@ -76,11 +76,11 @@ REDIS_HOST=your_redis_host
 REDIS_PORT=your_redis_port  
 4. Run Database Migrations (if applicable)
 bash
-Copy code
+
 npm run migrate
 5. Start the Application
 bash
-Copy code
+
 npm start
 Usage
 1. Register a New User
@@ -102,7 +102,7 @@ Upload files and track their progress using the provided API routes.
 Testing
 To execute unit tests, run the following command:
 bash
-Copy code
+
 npm test
 Test Coverage
 The tests include the following functionalities:
@@ -111,7 +111,7 @@ User authentication
 File CRUD operations
 Queuing system functionality
 vbnet
-Copy code
+
 
 ### Key Points to Maintain Formatting:  
 - **Paste into a Plain Text Area**: Ensure you're pasting this into a markdown editor or a plain-text-compatible section of your project (e.g., a `README.md` file).  
