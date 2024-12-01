@@ -127,7 +127,7 @@ vbnet
 - **Paste into a Plain Text Area**: Ensure you're pasting this into a markdown editor or a plain-text-compatible section of your project (e.g., a `README.md` file).  
 - **Preview in Markdown-Compatible Tool**: If you’re on GitHub or another Markdown-supporting platform, the formatting will appear exactly as intended.  
 
-Challenges and solutions 
+Challenges and solutions  
 
 Handling Concurrent File Uploads
 
