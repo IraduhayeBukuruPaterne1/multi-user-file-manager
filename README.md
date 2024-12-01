@@ -54,10 +54,10 @@ The **Multilingual File Manager Application** is a backend project built using *
 - MySQL or MongoDB installed and configured.
 - Redis server installed.
 
-Steps to Set Up and Run the Project
-1. Navigate to the Project Directory
-bash
-Copy code
+## Steps to Set Up and Run the Project
+
+### 1. Navigate to the Project Directory
+```bash
 cd multilingual-file-manager
 2. Install Dependencies
 bash
@@ -110,6 +110,14 @@ The tests include the following functionalities:
 User authentication
 File CRUD operations
 Queuing system functionality
+vbnet
+Copy code
+
+### Key Points to Maintain Formatting:  
+- **Paste into a Plain Text Area**: Ensure you're pasting this into a markdown editor or a plain-text-compatible section of your project (e.g., a `README.md` file).  
+- **Preview in Markdown-Compatible Tool**: If you’re on GitHub or another Markdown-supporting platform, the formatting will appear exactly as intended.  
+
+Let me know if you encounter any issues! 😊
 
 Challenge: The server experienced potential overload during multiple simultaneous uploads.
 Solution: Integrated Redis with a queuing library to manage tasks asynchronously and prevent overload.
