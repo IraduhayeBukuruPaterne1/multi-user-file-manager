@@ -5,6 +5,7 @@ const User = require("../models/User");
 const authenticate = require("../middleware/authMiddleware");
 const router = express.Router();
 
+
 /**
  * @swagger
  * /users:
@@ -94,8 +95,8 @@ router.post("/login", async(req, res) => {
             return res.status(400).json({ message: "Invalid credentials" });
         }
 
-        console.log(req.body.password)
-        console.log(user.password)
+        // console.log(req.body.password)
+        // console.log(user.password)
 
         // Compare input password with hashed password
         const isMatch = await bcrypt.compare(req.body.password, user.password);
@@ -265,6 +266,15 @@ router.delete("/:id", authenticate, async(req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+router.post('/register', (req, res) => {
+    const { username, email, password } = req.body;
+    if (username && email && password) {
+        res.status(201).json({ message: 'User registered successfully' });
+    } else {
+        res.status(400).json({ message: 'Invalid input' });
     }
 });
 

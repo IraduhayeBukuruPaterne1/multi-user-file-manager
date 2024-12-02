@@ -3,20 +3,18 @@ const multer = require("multer");
 const path = require("path");
 const File = require("../models/File");
 const User = require("../models/User");
-const authenticate = require("../middleware/authMiddleware"); // Middleware for authentication
+const authenticate = require("../middleware/authMiddleware");
+// const i18n = require("i18n");
+const i18next = require("i18next")
 
 const router = express.Router();
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({
-    destination: function(req, file, cb) {
-        cb(null, "uploads/"); // Store files in the 'uploads' folder
-    },
-    filename: function(req, file, cb) {
-        cb(null, Date.now() + path.extname(file.originalname)); // Add timestamp to filename
-    }
+    destination: (req, file, cb) => cb(null, "uploads/"),
+    filename: (req, file, cb) => cb(null, Date.now() + path.extname(file.originalname)),
 });
-const upload = multer({ storage: storage });
+const upload = multer({ storage });
 
 /**
  * @swagger
@@ -25,7 +23,7 @@ const upload = multer({ storage: storage });
  *     summary: Upload a file
  *     security:
  *       - bearerAuth: []
- *     description: This endpoint allows users to upload a file to their account.
+ *     description: Allows authenticated users to upload a file.
  *     tags: [Files]
  *     requestBody:
  *       required: true
@@ -37,41 +35,50 @@ const upload = multer({ storage: storage });
  *               file:
  *                 type: string
  *                 format: binary
- *               userId:
+ *               language:
  *                 type: string
- *                 description: The ID of the user uploading the file
+ *                 description: "Language preference for the message (default: en)"
+ *                 enum:
+ *                   - en
+ *                   - fr
+ *                   - es
+ *                   - de
  *     responses:
  *       200:
  *         description: File uploaded successfully
  *       400:
- *         description: File upload failed
+ *         description: Missing file or other errors
+ *       401:
+ *         description: Unauthorized (Token missing or invalid)
  *       500:
  *         description: Internal server error
  */
 router.post("/upload", authenticate, upload.single("file"), async(req, res) => {
     try {
-        const userId = req.user.id; // Use authenticated user's ID
+        const userId = req.user.id;
 
-        // Find the user
-        const user = await User.findById(userId);
-        if (!user) {
-            return res.status(404).send("User not found");
-        }
+        const { language = "en" } = req.body;
 
-        // Create a new file record
+        // Ensure file is uploaded
+        if (!req.file) return res.status(400).json({ message: i18n.__({ phrase: "No file uploaded", locale: language }) });
+
+        // Create a new file document and save it in the database
         const file = new File({
+            filename: req.file.originalname,
+            filepath: req.file.path,
             userId: userId,
-            fileName: req.file.filename,
-            filePath: req.file.path,
-            fileSize: req.file.size
         });
 
-        // Save the file record to the database
         await file.save();
-        res.status(200).send("File uploaded successfully");
+
+        // Return success response with localized message { lng: language }
+        res.status(200).json({
+            message: req.t("file_upload_success"),
+            file: file,
+        });
     } catch (error) {
         console.error(error);
-        res.status(500).send("Error uploading file");
+        res.status(500).json({ message: i18next.t("Error uploading file", { lng: req.body.language || "en" }) });
     }
 });
 
@@ -79,14 +86,13 @@ router.post("/upload", authenticate, upload.single("file"), async(req, res) => {
  * @swagger
  * /files:
  *   get:
- *     summary: Retrieve all files for a user
+ *     summary: Retrieve all files for the authenticated user
  *     security:
  *       - bearerAuth: []
- *     description: This endpoint fetches all files uploaded by the authenticated user.
  *     tags: [Files]
  *     responses:
  *       200:
- *         description: List of files for the user
+ *         description: Successfully retrieved files
  *         content:
  *           application/json:
  *             schema:
@@ -99,7 +105,7 @@ router.post("/upload", authenticate, upload.single("file"), async(req, res) => {
  *                   filePath:
  *                     type: string
  *                   fileSize:
- *                     type: integer
+ *                     type: number
  *       500:
  *         description: Internal server error
  */
@@ -109,46 +115,7 @@ router.get("/", authenticate, async(req, res) => {
         res.status(200).json(files);
     } catch (error) {
         console.error(error);
-        res.status(500).send("Error fetching files");
-    }
-});
-
-/**
- * @swagger
- * /files/{id}:
- *   delete:
- *     summary: Delete a file by ID
- *     security:
- *       - bearerAuth: []
- *     description: This endpoint deletes a file by its unique ID for the authenticated user.
- *     tags: [Files]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         description: The file ID
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: File deleted successfully
- *       404:
- *         description: File not found
- *       500:
- *         description: Internal server error
- */
-router.delete("/file/:id", authenticate, async(req, res) => {
-    const { id } = req.params;
-
-    try {
-        const file = await File.findOneAndDelete({ _id: id, userId: req.user.id });
-        if (!file) {
-            return res.status(404).send("File not found");
-        }
-        res.status(200).send("File deleted successfully");
-    } catch (error) {
-        console.error(error);
-        res.status(500).send("Error deleting file");
+        res.status(500).json({ message: i18n.__("fetch_failed") });
     }
 });
 
@@ -159,104 +126,65 @@ router.delete("/file/:id", authenticate, async(req, res) => {
  *     summary: Retrieve a file by ID
  *     security:
  *       - bearerAuth: []
- *     description: This endpoint fetches a specific file by its unique ID for the authenticated user.
  *     tags: [Files]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: The file ID
  *         schema:
  *           type: string
+ *         description: File ID
  *     responses:
  *       200:
- *         description: File details
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 fileName:
- *                   type: string
- *                 filePath:
- *                   type: string
- *                 fileSize:
- *                   type: integer
+ *         description: File retrieved successfully
  *       404:
  *         description: File not found
  *       500:
  *         description: Internal server error
  */
-router.get("/file/:id", authenticate, async(req, res) => {
-    const { id } = req.params;
-
+router.get("/:id", authenticate, async(req, res) => {
     try {
-        const file = await File.findOne({ _id: id, userId: req.user.id });
-        if (!file) {
-            return res.status(404).send("File not found");
-        }
+        const file = await File.findOne({ _id: req.params.id, userId: req.user.id });
+        if (!file) return res.status(404).send(i18n.__("file_not_found"));
         res.status(200).json(file);
     } catch (error) {
         console.error(error);
-        res.status(500).send("Error fetching file");
+        res.status(500).json({ message: i18n.__("fetch_failed") });
     }
 });
 
 /**
  * @swagger
- * /files/{id}/download:
- *   get:
- *     summary: Download a file by ID
+ * /files/{id}:
+ *   delete:
+ *     summary: Delete a file by ID
  *     security:
  *       - bearerAuth: []
- *     description: This endpoint allows users to download a file by its unique ID for the authenticated user.
  *     tags: [Files]
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: The file ID
  *         schema:
  *           type: string
+ *         description: File ID
  *     responses:
  *       200:
- *         description: File downloaded successfully
- *         content:
- *           application/octet-stream:
- *             schema:
- *               type: string
- *               format: binary
+ *         description: File deleted successfully
  *       404:
  *         description: File not found
  *       500:
  *         description: Internal server error
  */
-router.get("/file/:id/download", authenticate, async(req, res) => {
-    const { id } = req.params;
-
+router.delete("/:id", authenticate, async(req, res) => {
     try {
-        const file = await File.findOne({ _id: id, userId: req.user.id });
-        if (!file) {
-            return res.status(404).send("File not found");
-        }
-        res.download(file.filePath);
+        const file = await File.findOneAndDelete({ _id: req.params.id, userId: req.user.id });
+        if (!file) return res.status(404).send(i18n.__("file_not_found"));
+        res.status(200).json({ message: i18n.__("file_deleted") });
     } catch (error) {
         console.error(error);
-        res.status(500).send("Error downloading file");
+        res.status(500).json({ message: i18n.__("delete_failed") });
     }
 });
-router.get('/search', authenticate, async(req, res) => {
-    const { query } = req.query;
 
-    try {
-        const files = await File.find({
-            userId: req.user.id,
-            fileName: new RegExp(query, 'i')
-        });
-        res.status(200).json(files);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Error searching files' });
-    }
-});
 module.exports = router;

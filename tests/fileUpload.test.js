@@ -1,15 +1,22 @@
+const path = require('path');
 const request = require('supertest');
-const app = require('../server');
+const app = require('../server'); // Assuming your Express app is in the 'server.js' file
 
 describe('File Upload API', () => {
     it('should upload a file successfully', async() => {
-        const response = await request(app)
-            .post('/upload')
-            .set('Authorization', 'Bearer <your-token>')
-            .attach('file', '__tests__/sample.txt');
+        try {
+            const filePath = path.join(__dirname, 'testFile.txt'); // Ensure this file exists
 
-        expect(response.status).toBe(200);
-        expect(response.body.message).toBe('File uploaded successfully');
+            const res = await request(app)
+                .post('/api/upload/upload')
+                .attach('file', filePath); // Attach the file to the request
+
+            console.log('Response:', res.body);
+
+            expect(res.statusCode).toBe(200);
+            expect(res.body.message).toBe('File uploaded successfully');
+        } catch (error) {
+            console.error('Error during file upload:', error);
+        }
     });
 });
-// "test": "echo \"Error: no test specified\" && exit 1"

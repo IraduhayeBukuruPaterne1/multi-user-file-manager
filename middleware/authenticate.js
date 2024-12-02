@@ -1,31 +1,17 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/User'); // Ensure correct path to the model
+const jwt = require("jsonwebtoken");
+const i18next = require("i18next");
 
-const authenticate = async(req, res, next) => {
+const authenticate = (req, res, next) => {
+    const token = req.headers.authorization ? req.headers.authorization.split(" ")[1] : null;
+    if (!token) {
+        return res.status(401).json({ message: i18next.t("unauthorized") });
+    }
     try {
-        const token = req.header('Authorization');
-        console.log('Authorization header:', token); // Debugging line to see if the token is received
-        if (!token) {
-            return res.status(401).json({ message: 'Access Denied. No token provided.' });
-        }
-
-        const tokenWithoutBearer = token.replace('Bearer ', '');
-        const decoded = jwt.verify(tokenWithoutBearer, process.env.JWT_SECRET);
-
-        if (!decoded) {
-            return res.status(401).json({ message: 'Invalid token.' });
-        }
-
-        const user = await User.findById(decoded.userId);
-        if (!user) {
-            return res.status(404).json({ message: 'User not found.' });
-        }
-
-        req.user = user; // Attach user to request
-        next(); // Proceed to the next middleware or route handler
-    } catch (err) {
-        console.error('Authentication Error:', err);
-        return res.status(500).json({ message: 'Server error during authentication' });
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;
+        next();
+    } catch (error) {
+        return res.status(403).json({ message: i18next.t("forbidden") });
     }
 };
 
