@@ -67,76 +67,100 @@ Ensure the following are installed:
 
 **Redis server**
 
-Steps to Set Up and Run the Project
+**Steps to Set Up and Run the Project** 
+
+**Steps to Set Up and Run the Project**
+
 Navigate to the Project Directory
 
-
 cd multilingual-file-manager
-Install Dependencies
+
+
+**Install Dependencies**
 
 npm install
-Configure Environment Variables
-Create a .env file in the project root and add:
 
-env
-DB_HOST=your_database_host  
-DB_USER=your_database_user  
-DB_PASSWORD=your_database_password  
-DB_NAME=your_database_name  
-REDIS_HOST=your_redis_host  
-REDIS_PORT=your_redis_port  
-Run Database Migrations (if applicable)
+**Configure Environment Variables Create a .env file in the project root with the following content:**
+
+DB_HOST=your_database_host
+
+DB_USER=your_database_user
+
+DB_PASSWORD=your_database_password
+
+DB_NAME=your_database_name
+
+REDIS_HOST=your_redis_host
+
+REDIS_PORT=your_redis_port
+
+
+**Run Database Migrations (if applicable)**
 
 npm run migrate
-Start the Application
+
+**2. Start the Application** 
+
 
 
 npm start
-Usage
-**Redis server**
 
-Use the /register endpoint to create a new account.
 
-2. Log In
-Authenticate your account via the /login endpoint.
+**Usage**
+**Register a New User**
 
-3. Manage Files
-Perform the following operations:
 
-Create, read, update, and delete files and directories.
-4. Change Language
-Select your preferred language using the /language endpoint.
+**Endpoint: /register**
 
-5. Upload Files
-Upload files and monitor progress with the provided API routes.
+Create a new account by providing a username, email, and password.
+**Log In** 
 
-Testing
-Run Unit Tests
-Execute the following command:
 
-bash
-Copy code
+Endpoint: /login
+
+
+**Authenticate and receive a token for secure access.**
+
+**Manage Files**
+
+
+Perform file and directory operations:
+
+Create, read, update, delete files.
+
+Organize files into directories.
+
+
+**Change Language**
+
+
+Endpoint: /language
+
+
+Update your preferred language to customize the user interface.
+
+**Upload Files**
+
+**Endpoint: /upload**
+
+Upload files and track progress through the provided API routes.
+
+**Testing**
+Run the following command to execute unit tests:
+
 npm test
-Test Coverage
-Tests include:
 
-User authentication.
+**Test Coverage**
+The test suite includes:
+User authentication functionality.
 File CRUD operations.
-Queuing system functionalities.
+Queuing system functionality.
 
 **Challenges and Solutions**
 
-**1. Handling Concurrent File Uploads**
+Developing the Multilingual File Manager Application presented several challenges that required innovative solutions. One major hurdle was handling concurrent file uploads efficiently without overloading the server. To address this, we integrated Redis with a queuing system, ensuring smooth processing and tracking of multiple file uploads simultaneously. Another significant challenge was implementing dynamic internationalization (i18n) across the application. This required designing middleware capable of detecting user-selected languages and applying them in real time. By leveraging the i18next library, we created a seamless multilingual experience for users, enhancing global accessibility. These solutions not only improved the application’s performance but also contributed to a more user-friendly interface.
 
-Challenge: Managing multiple simultaneous uploads without overloading the server.
-Solution: Integrated Redis queuing for efficient processing.
-2. Implementing Dynamic i18n
-Challenge: Applying internationalization dynamically across the app.
-Solution: Designed middleware to detect and apply user-selected languages in real-time.
-Future Enhancements
-Add real-time notifications for file-related events.
-Implement role-based access control for file management.
-Expand multilingual support to more languages.
+
 
 ![Screenshot 2024-12-01 222237](https://github.com/user-attachments/assets/0d1b71bc-35fa-4a05-98df-9c3e79923c42)
 
