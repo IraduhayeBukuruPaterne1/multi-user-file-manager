@@ -70,8 +70,7 @@ Ensure the following are installed:
 Steps to Set Up and Run the Project
 Navigate to the Project Directory
 
-bash
-Copy code
+
 cd multilingual-file-manager
 Install Dependencies
 
@@ -138,3 +137,8 @@ Future Enhancements
 Add real-time notifications for file-related events.
 Implement role-based access control for file management.
 Expand multilingual support to more languages.
+
+![Screenshot 2024-12-01 222237](https://github.com/user-attachments/assets/0d1b71bc-35fa-4a05-98df-9c3e79923c42)
+
+![Screenshot 2024-12-01 222310 (1)](https://github.com/user-attachments/assets/47b121ea-0522-451d-ad94-c5ee4466c72f)
+
