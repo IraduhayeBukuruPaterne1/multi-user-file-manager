@@ -50,97 +50,119 @@ The **Multilingual File Manager Application** is a backend project built using *
 ## Installation and Setup
 
 ### Prerequisites
-- Node.js installed on your machine.
+-** Node.js installed on your machine .
 - MySQL or MongoDB installed and configured.
 - Redis server installed.
 
 ## Steps to Set Up and Run the Project
 
 ### 1. Navigate to the Project Directory
-```bash
+Installation and Setup
+Prerequisites
+Ensure the following are installed:
+
+**Node.js**
+
+**MySQL or MongoDB**
+
+**Redis server**
+
+**Steps to Set Up and Run the Project** 
+
+**Steps to Set Up and Run the Project**
+
+Navigate to the Project Directory
+
 cd multilingual-file-manager
-2. Install Dependencies
-bash
 
-### npm install
-3. Configure Environment Variables
-Create a .env file in the project root and add the following variables:
 
-env
+**Install Dependencies**
 
-DB_HOST=your_database_host  
-DB_USER=your_database_user  
-DB_PASSWORD=your_database_password  
-DB_NAME=your_database_name  
-REDIS_HOST=your_redis_host  
-REDIS_PORT=your_redis_port  
-4. Run Database Migrations (if applicable)
-bash
+npm install
+
+**Configure Environment Variables Create a .env file in the project root with the following content:**
+
+DB_HOST=your_database_host
+
+DB_USER=your_database_user
+
+DB_PASSWORD=your_database_password
+
+DB_NAME=your_database_name
+
+REDIS_HOST=your_redis_host
+
+REDIS_PORT=your_redis_port
+
+
+**Run Database Migrations (if applicable)**
 
 npm run migrate
-5. Start the Application
-bash
+
+**2. Start the Application** 
+
+
 
 npm start
 
-Usage
 
-1. Register a New User
-Use the /register endpoint to create a new account.
+**Usage**
+**Register a New User**
 
-2. Log In
 
-Authenticate your account through the /login endpoint.
+**Endpoint: /register**
 
-3. Manage Files
+Create a new account by providing a username, email, and password.
+**Log In** 
+
+
+Endpoint: /login
+
+
+**Authenticate and receive a token for secure access.**
+
+**Manage Files**
+
 
 Perform file and directory operations:
 
-Create, read, update, and delete files and directories in your workspace.
-4. Change Language
-Update your preferred language through the /language endpoint.
+Create, read, update, delete files.
 
-5. Upload Files
+Organize files into directories.
 
-Upload files and track their progress using the provided API routes.
 
-Testing
+**Change Language**
 
-To execute unit tests, run the following command:
-bash
+
+Endpoint: /language
+
+
+Update your preferred language to customize the user interface.
+
+**Upload Files**
+
+**Endpoint: /upload**
+
+Upload files and track progress through the provided API routes.
+
+**Testing**
+Run the following command to execute unit tests:
 
 npm test
 
-Test Coverage
+**Test Coverage**
+The test suite includes:
+User authentication functionality.
+File CRUD operations.
+Queuing system functionality.
 
-The tests include the following functionalities:
+**Challenges and Solutions**
 
-User authentication
-
-File CRUD operations
-
-Queuing system functionality
-vbnet
-### Screenshot
-![Screenshot 2024-12-01 222237](https://github.com/user-attachments/assets/5a97730a-6285-41c1-8212-01bbc0a77326)
-
-![Screenshot 2024-12-01 222310](https://github.com/user-attachments/assets/e399a6aa-a42f-4de4-9258-b5e88915e2bd)
+Developing the Multilingual File Manager Application presented several challenges that required innovative solutions. One major hurdle was handling concurrent file uploads efficiently without overloading the server. To address this, we integrated Redis with a queuing system, ensuring smooth processing and tracking of multiple file uploads simultaneously. Another significant challenge was implementing dynamic internationalization (i18n) across the application. This required designing middleware capable of detecting user-selected languages and applying them in real time. By leveraging the i18next library, we created a seamless multilingual experience for users, enhancing global accessibility. These solutions not only improved the application’s performance but also contributed to a more user-friendly interface.
 
 
 
+![Screenshot 2024-12-01 222237](https://github.com/user-attachments/assets/0d1b71bc-35fa-4a05-98df-9c3e79923c42)
 
-
-
-### Key Points to Maintain Formatting:  
-- **Paste into a Plain Text Area**: Ensure you're pasting this into a markdown editor or a plain-text-compatible section of your project (e.g., a `README.md` file).  
-- **Preview in Markdown-Compatible Tool**: If you’re on GitHub or another Markdown-supporting platform, the formatting will appear exactly as intended.  
-
-Challenges and solutions  
-
-Handling Concurrent File Uploads
-
-One of our key challenges was managing multiple simultaneous file uploads without overloading the server. We overcame this by integrating Redis with a queuing system to process uploads efficiently.
-
-Implementing Dynamic i18n
-Another challenge was applying internationalization dynamically across the application. To address this, we designed middleware that detects and applies user-selected languages in real time.
+![Screenshot 2024-12-01 222310 (1)](https://github.com/user-attachments/assets/47b121ea-0522-451d-ad94-c5ee4466c72f)
 
