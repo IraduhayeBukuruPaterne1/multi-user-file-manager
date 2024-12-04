@@ -4,7 +4,7 @@ const path = require("path");
 const File = require("../models/File");
 const User = require("../models/User");
 const authenticate = require("../middleware/authMiddleware");
-// const i18n = require("i18n");
+const fileUploadQueue = require("../queue");
 const i18next = require("i18next")
 
 const router = express.Router();
@@ -62,12 +62,31 @@ router.post("/upload", authenticate, upload.single("file"), async(req, res) => {
         // Ensure file is uploaded
         if (!req.file) return res.status(400).json({ message: i18n.__({ phrase: "No file uploaded", locale: language }) });
 
+        const job = await fileUploadQueue.add({
+            userId,
+            fileName: req.file.originalname,
+            filePath: req.file.path,
+        });
+
+        const task = {
+            type: "file_upload",
+            file: req.file,
+            userId: req.user.id,
+        };
+        await enqueue(task);
+
         // Create a new file document and save it in the database
         const file = new File({
             filename: req.file.originalname,
             filepath: req.file.path,
             userId: userId,
         });
+        res.status(200).json({
+            message: "File upload in progress",
+            file: req.file
+
+        });
+
 
         await file.save();
 

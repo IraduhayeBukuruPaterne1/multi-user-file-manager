@@ -24,8 +24,7 @@ var dotenv = require("dotenv");
 
 var userRoutes = require("./routes/userRoutes");
 
-var fileRoutes = require("./routes/fileRoutes"); // Corrected this import
-
+var fileRoutes = require("./routes/fileRoutes");
 
 var uploadRoutes = require("./routes/uploadRoutes");
 
@@ -40,22 +39,28 @@ mongoose.connect("mongodb://localhost:27017/multiUserFileManager").then(function
   return console.log("MongoDB connected");
 })["catch"](function (error) {
   return console.error("MongoDB connection error:", error);
-}); // Initialize i18next with file-based backend
+}); // Initialize i18next 
 
 i18next.use(Backend).use(middleware.LanguageDetector).init({
   fallbackLng: "en",
   backend: {
     loadPath: "./locales/{{lng}}/translation.json"
   }
-}); // Middleware setup
+}); // Middleware 
 
 app.use(cors());
-app.use(bodyParser.json()); // app.use(i18nextMiddleware.handle(i18next));
-// i18next middleware
+app.use(bodyParser.json());
+app.use(middleware.handle(i18next)); // Swagger
 
-app.use(middleware.handle(i18next)); // Swagger setup
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec)); // Bull-Board
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec)); // Routes
+var serverAdapter = new ExpressAdapter();
+serverAdapter.setBasePath("/admin/queues");
+createBullBoard({
+  queues: [new BullAdapter(fileUploadQueue)],
+  serverAdapter: serverAdapter
+});
+app.use("/admin/queues", serverAdapter.getRouter()); // Routes
 
 app.use("/users", userRoutes);
 app.use("/files", fileRoutes);

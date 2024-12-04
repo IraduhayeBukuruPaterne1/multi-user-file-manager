@@ -10,8 +10,9 @@ var File = require("../models/File");
 
 var User = require("../models/User");
 
-var authenticate = require("../middleware/authMiddleware"); // const i18n = require("i18n");
+var authenticate = require("../middleware/authMiddleware");
 
+var fileUploadQueue = require("../queue");
 
 var i18next = require("i18next");
 
@@ -67,7 +68,7 @@ var upload = multer({
  */
 
 router.post("/upload", authenticate, upload.single("file"), function _callee(req, res) {
-  var userId, _req$body$language, language, file;
+  var userId, _req$body$language, language, job, task, file;
 
   return regeneratorRuntime.async(function _callee$(_context) {
     while (1) {
@@ -90,26 +91,48 @@ router.post("/upload", authenticate, upload.single("file"), function _callee(req
           }));
 
         case 5:
+          _context.next = 7;
+          return regeneratorRuntime.awrap(fileUploadQueue.add({
+            userId: userId,
+            fileName: req.file.originalname,
+            filePath: req.file.path
+          }));
+
+        case 7:
+          job = _context.sent;
+          task = {
+            type: "file_upload",
+            file: req.file,
+            userId: req.user.id
+          };
+          _context.next = 11;
+          return regeneratorRuntime.awrap(enqueue(task));
+
+        case 11:
           // Create a new file document and save it in the database
           file = new File({
             filename: req.file.originalname,
             filepath: req.file.path,
             userId: userId
           });
-          _context.next = 8;
+          res.status(200).json({
+            message: "File upload in progress",
+            file: req.file
+          });
+          _context.next = 15;
           return regeneratorRuntime.awrap(file.save());
 
-        case 8:
+        case 15:
           // Return success response with localized message { lng: language }
           res.status(200).json({
             message: req.t("file_upload_success"),
             file: file
           });
-          _context.next = 15;
+          _context.next = 22;
           break;
 
-        case 11:
-          _context.prev = 11;
+        case 18:
+          _context.prev = 18;
           _context.t0 = _context["catch"](0);
           console.error(_context.t0);
           res.status(500).json({
@@ -118,12 +141,12 @@ router.post("/upload", authenticate, upload.single("file"), function _callee(req
             })
           });
 
-        case 15:
+        case 22:
         case "end":
           return _context.stop();
       }
     }
-  }, null, null, [[0, 11]]);
+  }, null, null, [[0, 18]]);
 });
 /**
  * @swagger

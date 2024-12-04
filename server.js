@@ -10,7 +10,7 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerSpec = require("./config/swagger");
 const dotenv = require("dotenv");
 const userRoutes = require("./routes/userRoutes");
-const fileRoutes = require("./routes/fileRoutes"); // Corrected this import
+const fileRoutes = require("./routes/fileRoutes");
 const uploadRoutes = require("./routes/uploadRoutes");
 const { addFileUploadJob } = require("./queue");
 
@@ -25,7 +25,7 @@ mongoose
     .then(() => console.log("MongoDB connected"))
     .catch((error) => console.error("MongoDB connection error:", error));
 
-// Initialize i18next with file-based backend
+// Initialize i18next 
 i18next
     .use(Backend)
     .use(middleware.LanguageDetector)
@@ -39,16 +39,26 @@ i18next
 
 
 
-// Middleware setup
+// Middleware 
 app.use(cors());
 app.use(bodyParser.json());
-// app.use(i18nextMiddleware.handle(i18next));
-// i18next middleware
+
 app.use(middleware.handle(i18next));
 
 
-// Swagger setup
+// Swagger
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+// Bull-Board
+const serverAdapter = new ExpressAdapter();
+serverAdapter.setBasePath("/admin/queues");
+
+createBullBoard({
+    queues: [new BullAdapter(fileUploadQueue)],
+    serverAdapter,
+});
+
+app.use("/admin/queues", serverAdapter.getRouter());
 
 
 // Routes
